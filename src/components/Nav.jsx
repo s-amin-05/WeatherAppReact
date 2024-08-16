@@ -12,7 +12,7 @@ function Nav() {
           <li>
             <NavLink to={'/'} 
               className={({isActive})=>(
-              `${isActive? `text-orange-700`: `text-zinc-50`}`
+              `${isActive? `text-orange-500`: `text-zinc-50`}`
               )}>
               Home
             </NavLink>
