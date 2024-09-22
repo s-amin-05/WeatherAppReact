@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import useLocationContext, { LocationContext } from '../contexts/UserLocation'
 import { Link, NavLink } from 'react-router-dom'
 //Imported svgs as React Components so that color can be changed during runtime
@@ -6,19 +6,16 @@ import {ReactComponent as WeatherIcon} from '../assets/weather.svg'
 import {ReactComponent as UserIcon} from '../assets/user_settings.svg'
 
 
-
-
-
-
 function Nav() {
   //Get user coords
 
   const {latitude, longitude, getUserCoords, getCoordsFromPlace} = useLocationContext()
+  const inputRef = useRef(null)
 
 
   const appName = "Weather App"
 
-  const handleInput = (e) => {
+  const handleBlur = (e) => {
     e.preventDefault()
     getCoordsFromPlace(e.target.value)
   }
@@ -26,8 +23,12 @@ function Nav() {
   const handleClick = (e) => {
     e.preventDefault()
     getUserCoords()
-    console.log(import.meta.env.VITE_API_KEY);
-    
+  }
+
+  const handleKeyDown = (e) => {
+    if(e.key === 'Enter'){
+      inputRef.current.blur()
+    }
   }
 
   return (
@@ -79,7 +80,7 @@ function Nav() {
       {`bg-navColor flex items-center justify-center h-14 font-medium gap-4` }
       >
         <input type="text" id="" placeholder='Search' className='pl-4'
-        onBlur={handleInput}
+        onBlur={handleBlur} onKeyDown={handleKeyDown} ref={inputRef}
         />
         <button
         className='bg-white px-1'
